@@ -1,21 +1,3 @@
-		/*
- * =====================================================================================
- *
- *       Filename:  main.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  12/02/2017 20:05:55
- *       Revision:  none
- *       Compiler:  arm-none-eabi-gcc
- *
- *         Author:  Francisco Helder (FHC), helderhdw@gmail.com
- *   Organization:  UFC-Quixadá
- *
- * =====================================================================================
- */
-
 //setenv app "setenv serverip 10.10.0.1; setenv ipaddr  10.10.0.2; tftp 0x80000000 appGpio.bin; go 0x80000000"
 //run app
 
