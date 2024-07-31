@@ -16,10 +16,10 @@
 
 #define CM_conf_gpmc_ben1      	 								0x0878 // Endereço dos registradores de configuração de multiplexação dos pinos
 #define CM_conf_gpmc_a5         								0x0854 // Endereço dos registrad1ores de configuração de multiplexação dos pinos
-#define CM_conf_gpmc_a6											0x0858
-#define CM_conf_gpmc_a7											0x085C
+#define CM_conf_gpmc_a6											0x0858 // USR0,1,2,3, no esquemático, Table 9-8. CONTROL_MODULE REGISTERS no manual(1221pg)
+#define CM_conf_gpmc_a7											0x085C // pego o offset deles
 #define CM_conf_gpmc_a8											0x0860
-#define CM_conf_gpmc_be1n  										0x0878
+#define CM_conf_gpmc_be1n  										0x0878 // offset do led externo (GPIO28)
 
 #define GPIO_OE                 								0x134 //Registro de configuração do pino como entrada/saida
 #define GPIO_CLEARDATAOUT       								0x190 //Registro para limpar os dados de saida da GPIO
