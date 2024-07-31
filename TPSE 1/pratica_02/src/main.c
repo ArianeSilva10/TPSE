@@ -100,7 +100,7 @@ void ledInit( ){
 	 *  set pin direction ------Configura a direção o pino GPIO1_21 como saida
 	 *-----------------------------------------------------------------------------*/
 	val_temp = HWREG(SOC_GPIO_1_REGS+GPIO_OE);
-	val_temp &= ~(1<<21);
+	val_temp &= ~(1<<21); //seto o bit específico do pino de saida
 	val_temp &= ~(1<<22);
 	val_temp &= ~(1<<23);
 	val_temp &= ~(1<<24);
