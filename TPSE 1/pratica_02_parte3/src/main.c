@@ -8,6 +8,7 @@
 **                INTERNAL MACRO DEFINITIONS
 *****************************************************************************/
 #define TIME													100000 //Tempo para o atraso.
+#define TIME2                                                   1000000
 #define TOGGLE          										(0x01u) // Alterna o estado do  led
 
 #define CM_PER_GPIO1											0xAC // Endereço do registrador de controle do modulo de clock para GPIO1
@@ -73,7 +74,10 @@ static void delay(){ // função de atraso do estado
 	volatile unsigned int ra;
 	for(ra = 0; ra < TIME; ra ++); // TIME é Tempo para o atraso.
 }
-
+static void delay_low(){ // função de atraso do estado 
+	volatile unsigned int ra;
+	for(ra = 0; ra < TIME2; ra ++); // TIME é Tempo para o atraso.
+}
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -162,9 +166,9 @@ void ledToggle(){
 
 void contrario(){
 	HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = 1 << 28;
-		delay();
+		delay_low();
 	HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<28);
-		delay();
+		delay_low();
 
 	for (int i = 24; i >= 21; i--)
 	{
