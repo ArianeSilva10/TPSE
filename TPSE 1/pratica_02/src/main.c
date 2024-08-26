@@ -7,7 +7,8 @@
 /*****************************************************************************
 **                INTERNAL MACRO DEFINITIONS
 *****************************************************************************/
-#define TIME													1000000 //Tempo para o atraso.
+#define TIME													100000 //Tempo para o atraso.
+#define TIME2                                                   1000000
 #define TOGGLE          										(0x01u) // Alterna o estado do  led
 
 #define CM_PER_GPIO1											0xAC // Endereço do registrador de controle do modulo de clock para GPIO1
@@ -34,6 +35,7 @@ unsigned int flagBlink; //variavel usada para manter o estado do led (aceso/apag
 static void delay(); //Função para criar um atraso
 static void ledInit(); //Função que Inicializa o estado do led
 static void ledToggle(); //Função que Alterna o estado do led
+void contrario();
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -51,9 +53,10 @@ int _main(void){
   	while (1){ // looping para ir alternando o estado do led entre aceso e apagado
     	/* Change the state of the green LED. */
     	ledToggle(); // Alterna o estado entre aceso e apagado
-		delay(); //cria o atraso desse estado
-		ledToggle(); // Alterna o estado entre aceso e apagado
-		delay(); //cria o atraso desse estado
+		contrario();
+		//delay(); //cria o atraso desse estado
+		//ledToggle(); // Alterna o estado entre aceso e apagado
+		//delay(); //cria o atraso desse estado
 	}
 
 	return(0);
@@ -71,7 +74,10 @@ static void delay(){ // função de atraso do estado
 	volatile unsigned int ra;
 	for(ra = 0; ra < TIME; ra ++); // TIME é Tempo para o atraso.
 }
-
+static void delay_low(){ // função de atraso do estado 
+	volatile unsigned int ra;
+	for(ra = 0; ra < TIME2; ra ++); // TIME é Tempo para o atraso.
+}
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -121,15 +127,27 @@ void ledInit( ){
 // Função de alternancia do led
 void ledToggle(){
 		
-		flagBlink ^= TOGGLE;
+		for (int i = 21; i < 25; i++)
+		{
+			HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = (1<<i);
+			delay();
+			HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<i);
+			delay();
+		}
+		HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = 1 << 28;
+		delay();
+		HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<28);
+		delay();
 
-		if(flagBlink){
+		//flagBlink ^= TOGGLE;
+
+		//if(flagBlink){
 			/*unsigned  reg = HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT);
 			reg |= 1 << 21;
 			reg |= 1 << 22;
 			reg |= 1 << 23;
 			reg |= 1 << 24;
-			reg |= 1 << 28;*/
+			//reg |= 1 << 28;
 			HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = (0x1<<21); //Se  flagBlink é 1, define o pino 21 como alto (acende o LED).
 			HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = (1<<22);
 			HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = (1<<23);
@@ -142,9 +160,26 @@ void ledToggle(){
 			HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<23); 
 			HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<24); 
 			HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<28);
-		}
+		}*/
 
-}/* -----  end of function ledToggle  ----- */
+}
+
+void contrario(){
+	HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = 1 << 28;
+		delay_low();
+	HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<28);
+		delay_low();
+
+	for (int i = 24; i >= 21; i--)
+	{
+		HWREG(SOC_GPIO_1_REGS+GPIO_SETDATAOUT) = (1<<i);
+		delay();
+		HWREG(SOC_GPIO_1_REGS+GPIO_CLEARDATAOUT) = (1<<i);
+		delay();
+	}
+}
+
+/* -----  end of function ledToggle  ----- */
 
 
 
