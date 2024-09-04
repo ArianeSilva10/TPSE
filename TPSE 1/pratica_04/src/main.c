@@ -68,6 +68,7 @@ void ISR_Handler(void){
 
 int main(void)
 {
+	putString(UART0, "GPIO INPUT INICIALIZADO\n", 24);
 	unsigned int op=SEQ1, count = 0;
 	ucPinNumber pino=21;
 	/*-----------------------------------------------------------------------------
@@ -76,42 +77,49 @@ int main(void)
 	disableWdt();
 
 	Init_module_gpio(GPIO1);
+	Init_module_gpio(GPIO2);
 
 	uartInitModule(UART0, 115200, STOP1, PARITY_NONE, FLOW_OFF);
 	/*-----------------------------------------------------------------------------
 	 *  initialize GPIO modules
 	 *-----------------------------------------------------------------------------*/
 	// Configura os pinos 21 a 24 como saídas para controlar os LEDs
-	for(count=pino; count<25; count++){
 		Init_pin_gpio(GPIO1, pino, OUTPUT);
-		delay(1000, TIMER2); // Pequeno delay entre a configuração de cada pino
-	}
+		Init_pin_gpio(GPIO1, pino+1, OUTPUT);
+		Init_pin_gpio(GPIO1, pino+2, OUTPUT);
+		Init_pin_gpio(GPIO1, pino+3, OUTPUT);
+		Init_pin_gpio(GPIO1, pino+4, OUTPUT);
+
+		//delay(1000, TIMER2); // Pequeno delay entre a configuração de cada pino
 	// Configura o pino 13 como saída para controlar um LED extra
-	Init_pin_gpio(GPIO1, 13, OUTPUT);
+	Init_pin_gpio(GPIO2, 1, OUTPUT);
 
 	// Configura os pinos 12 como entradas para os botões
-	Init_pin_gpio(GPIO1, 12, INPUT);
+	Init_pin_gpio(GPIO1, 16, INPUT);
 
 	// Configura a direção dos pinos 21 a 24 como saídas
-	for(count=pino; count<25; count++){
 		Set_direction_pin_gpio(GPIO1, OUTPUT, pino);
-		delay(1000, TIMER2);// Pequeno delay entre a configuração de cada pino
-	}
+		Set_direction_pin_gpio(GPIO1, OUTPUT, pino+1);
+		Set_direction_pin_gpio(GPIO1, OUTPUT, pino+2);
+		Set_direction_pin_gpio(GPIO1, OUTPUT, pino+3);
+		Set_direction_pin_gpio(GPIO1, OUTPUT, pino+4);
+
+
+		//delay(1000, TIMER2);// Pequeno delay entre a configuração de cada pino
 
 	// Configura a direção do pino 28 como saída e do pino 12 como entrada
-	Set_direction_pin_gpio(GPIO1,OUTPUT, 13);
-	Set_direction_pin_gpio(GPIO1, INPUT, 12);
+	Set_direction_pin_gpio(GPIO2,OUTPUT, 1);
+	Set_direction_pin_gpio(GPIO1, INPUT, 16);
 
     // Desliga todos os LEDs inicialmente
-    for(count=pino; count<25; count++){
+    /*for(count=pino; count<25; count++){
         ledOFF(GPIO1, count);
 		delay(1000, TIMER2);// Pequeno delay entre desligar cada LED
-	}
-	ledOFF(GPIO1, 13);// Desliga o LED do pino 28
+	}*/
+	ledOFF(GPIO2, 1);// Desliga o LED do pino 28
 
 	// Envia mensagem via UART indicando que a entrada GPIO foi inicializada
-	uartGetString(UART0, "GPIO INPUT INICIALIZADO\n", 25);
-	putString(UART0, "GPIO INPUT INICIALIZADO\n", 25);
+	//uartGetString(UART0, "GPIO INPUT INICIALIZADO\n", 25);
 
 // Loop principal que controla os LEDs baseado no estado atual e no botão pressionado
 	while(true){
@@ -123,7 +131,7 @@ int main(void)
 							ledOFF(GPIO1, pino);
 							delay(1000000, TIMER2);
 
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ2;
 						break;
 						case SEQ2:				// SEQ2: Pisca o LED no pino 22
@@ -134,7 +142,7 @@ int main(void)
 							delay(1000000, TIMER2);	
 
 							// Se o botão no pino 12 for pressionado, avança para SEQ3
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ3;
 						break;
 						case SEQ3:				// SEQ3: Pisca o LED no pino 23
@@ -144,7 +152,7 @@ int main(void)
 							ledOFF(GPIO1, pino+2);
 							delay(1000000, TIMER2);	
 
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ4;
 						break;
 						case SEQ4:				// SEQ4: Pisca o LED no pino 24
@@ -154,32 +162,32 @@ int main(void)
 							ledOFF(GPIO1, pino+3);
 							delay(1000000, TIMER2);
 
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ5;//
 						break;
 						case SEQ5:				// SEQ5: Pisca o LED no pino 28
-							ledON(GPIO1, 29);
+							ledON(GPIO1, 21);
 							delay(1000000, TIMER2);
 
-							ledOFF(GPIO1, 29);
+							ledOFF(GPIO1, 21);
 							delay(1000000, TIMER2);
 
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ6;//
 						break;
 						case SEQ6: 				// SEQ6: Pisca todos os LEDs juntos (pinos 21 a 24 e 28)
 							for(count=pino; count<25; count++)
 								ledON(GPIO1, count);
-							ledON(GPIO1, 13);
+							ledON(GPIO2, 1);
 							delay(1000000, TIMER2);
 
 							// Desliga todos os LEDs juntos
 							for(count=pino; count<25; count++)
 								ledOFF(GPIO1, count);
-							ledOFF(GPIO1, 13);
+							ledOFF(GPIO2, 1);
 							delay(1000000, TIMER2);
 
-							if(button_press(GPIO1, 12))
+							if(button_press(GPIO1, 16))
 								op=SEQ1;
 						break;
 						default:	
