@@ -98,73 +98,81 @@ int main(void)
 	 *-----------------------------------------------------------------------------*/
 	Init_module_gpio(GPIO1); // modulo que usarei
 	
-	Init_pin_gpio(GPIO1,button,INPUT); // Inicializo o pino do botão como entrada
+	//Init_pin_gpio(GPIO1,button,INPUT); // Inicializo o pino do botão como entrada
 
-	Init_pin_gpio(GPIO1,led,OUTPUT); // inicializo como saida (led)
+	//Init_pin_gpio(GPIO1,led,OUTPUT); // inicializo como saida (led)
 	Init_pin_gpio(GPIO1,interno1,OUTPUT); // inicializo como saida (led)
 	Init_pin_gpio(GPIO1,interno2,OUTPUT); // inicializo como saida (led)
 	Init_pin_gpio(GPIO1,interno3,OUTPUT); // inicializo como saida (led)
 	Init_pin_gpio(GPIO1, interno4,OUTPUT); // inicializo como saida (led)
 
-	Init_pin_gpio(GPIO1, button2, INPUT);
+	//Init_pin_gpio(GPIO1, button2, INPUT);
 
-	Set_direction_pin_gpio(GPIO1, led, OUTPUT);
+	//Set_direction_pin_gpio(GPIO1, led, OUTPUT);
 	Set_direction_pin_gpio(GPIO1, interno1, OUTPUT);
 	Set_direction_pin_gpio(GPIO1, interno2, OUTPUT);
 	Set_direction_pin_gpio(GPIO1, interno3, OUTPUT);
 	Set_direction_pin_gpio(GPIO1, interno4, OUTPUT);
 
-
-	Set_direction_pin_gpio(GPIO1, button, INPUT);
-	Set_direction_pin_gpio(GPIO1, button2, INPUT);
-
-	ledON(GPIO1, led);
-	delay_LOW();
-	ledOFF(GPIO1, led);
+	ledON(GPIO1,interno1);
 	delay_LOW();
 
-	while (1)
-	{
-		ledON(GPIO1, led);
-		delay_RUN();
-
-		ledOFF(GPIO1, led);
-		delay_RUN(); 
-
-		if (button_press(GPIO1, button))
-		{
-			ledON(GPIO1, led);
-			delay_RUN();
-
-			ledOFF(GPIO1, led);
-			delay_RUN();
-
-			ledON(GPIO1, interno1);
-			ledON(GPIO1, interno2);
-			//ledON(GPIO1, interno3);
-			ledON(GPIO1, interno4);
-			delay_RUN();
-
-			ledOFF(GPIO1, interno1);
-			ledOFF(GPIO1, interno2);
-			ledOFF(GPIO1, interno4);
-			delay_RUN();
-		}else if (button_press(GPIO1, button2))
-		{
-			ledON(GPIO1, interno1);
-			ledON(GPIO1, interno2);
-			ledON(GPIO1, interno3);
-			//ledON(GPIO1, interno4);
-			delay_RUN();
-
-			ledOFF(GPIO1, interno1);
-			ledOFF(GPIO1, interno2);
-			ledOFF(GPIO1, interno3);
-			delay_RUN();
-		}
-		
-	}
+	ledON(GPIO1,interno3);
+	delay_LOW();
 	
+
+
+	/*Set_direction_pin_gpio(GPIO1, button, INPUT);
+	Set_direction_pin_gpio(GPIO1, button2, INPUT);*/
+
+	// ledON(GPIO1, led);
+	// delay_LOW();
+	// ledOFF(GPIO1, led);
+	// delay_LOW();
+
+	// while (1)
+	// {
+	// 	ledON(GPIO1, led);
+	// 	delay_RUN();
+
+	// 	ledOFF(GPIO1, led);
+	// 	delay_RUN(); 
+
+	// 	if (button_press(GPIO1, button))
+	// 	{
+	// 		ledON(GPIO1, led);
+	// 		delay_RUN();
+
+	// 		ledOFF(GPIO1, led);
+	// 		delay_RUN();
+
+	// 		ledON(GPIO1, interno1);
+	// 		ledON(GPIO1, interno2);
+	// 		//ledON(GPIO1, interno3);
+	// 		ledON(GPIO1, interno4);
+	// 		delay_RUN();
+
+	// 		ledOFF(GPIO1, interno1);
+	// 		ledOFF(GPIO1, interno2);
+	// 		ledOFF(GPIO1, interno4);
+	// 		delay_RUN();
+	// 	}else if (button_press(GPIO1, button2))
+	// 	{
+	// 		ledON(GPIO1, interno1);
+	// 		ledON(GPIO1, interno2);
+	// 		ledON(GPIO1, interno3);
+	// 		//ledON(GPIO1, interno4);
+	// 		delay_RUN();
+
+	// 		ledOFF(GPIO1, interno1);
+	// 		ledOFF(GPIO1, interno2);
+	// 		ledOFF(GPIO1, interno3);
+	// 		delay_RUN();
+	// 	}
+		
+	// }
+	
+
 
 	return 0;
 

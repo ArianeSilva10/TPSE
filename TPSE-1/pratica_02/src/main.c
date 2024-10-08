@@ -1,4 +1,4 @@
-//setenv app "setenv serverip 10.10.0.1; setenv ipaddr  10.10.0.2; tftp 0x80000000 appGpio.bin; go 0x80000000"
+//setenv app "setenv serverip 10.10.0.1; setenv ipaddr  10.10.0.2; tftp 0x80000000 appGpio.bin; go 0x80000000"; run app
 //run app
 
 #include	"hw_types.h" //Contém definições de tipos de hardware e macros.
