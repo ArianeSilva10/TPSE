@@ -84,7 +84,7 @@ void Init_pin_gpio(gpioMod modulo, ucPinNumber pino, Direction direcao){
 //Manipula o registrador de controle para o pino específico, configurando-o no modo correto.
 /*Input enable value for the PAD: Este é um valor de configuração que define se o pino está habilitado 
 para funcionar como uma entrada (input) de dados. O termo "PAD" aqui refere-se ao hardware físico que se 
-conecta ao pino, que pode ser configurado para receber sinais externos. Página 1515, manual.*/
+conecta ao pino, que pode ser configurado para receber sinais externos. Página 1515, manual. No outro manual pag 1449*/
 	}else if (direcao == OUTPUT)
 	{
 		HWREG(SOC_CONTROL_REGS + nome_pino_especifico) &= ~(1 <<5);
